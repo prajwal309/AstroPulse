@@ -3,13 +3,14 @@ from lib.Download import downloadLightcurve
 from lib.Functions import CleanLC, get_all_files
 import numpy as np
 import lightkurve as lk
+import matplotlib.pyplot as plt
 
 
 #Read the data 
 
 def RunTarget(Target):
 
-    LightCurvesLocation = "lc_data/"+str(Target) 
+    LightCurvesLocation = "lc_data/KIC"+str(Target) 
    
     
 
@@ -49,6 +50,17 @@ def RunTarget(Target):
 
     AllTime = AllTime[ArrangeIndex]-2400000.0
     AllFlux = AllFlux[ArrangeIndex]
+
     return AllTime, AllFlux
 
-RunTarget(8112039)
+#This is KOI
+#RunTarget(8112039)
+
+Time, Flux = RunTarget(2710002)
+
+plt.figure()
+plt.plot(Time, Flux, "k.")
+plt.xlabel("Time [BJD]")
+plt.ylabel("Flux")
+plt.tight_layout()
+plt.show()

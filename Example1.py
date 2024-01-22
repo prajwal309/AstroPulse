@@ -1,6 +1,6 @@
 #Created by Prajwal
 from lib.Download import downloadLightcurve
-from lib.Functions import CleanLC, get_all_files
+from lib.Functions import CleanLC, get_all_files, Spectrogram
 import numpy as np
 import lightkurve as lk
 import matplotlib.pyplot as plt
@@ -54,13 +54,20 @@ def RunTarget(Target):
     return AllTime, AllFlux
 
 #This is KOI
-#RunTarget(8112039)
+Time, Flux = RunTarget(8112039)
 
-Time, Flux = RunTarget(2710002)
+scales, NewTime, Power = Spectrogram(Time, Flux)
 
-plt.figure()
+# Plot the scaleogram
+plt.figure(figsize=(12, 8))
+plt.subplot(211)
 plt.plot(Time, Flux, "k.")
 plt.xlabel("Time [BJD]")
 plt.ylabel("Flux")
-plt.tight_layout()
+plt.subplot(212)
+plt.imshow(10*np.log10(Power), aspect='auto', cmap='jet')
+plt.colorbar(label='Magnitude')
+plt.title('Spectrogram')
+plt.xlabel('Time')
+plt.ylabel('Scale')
 plt.show()
